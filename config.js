@@ -49,6 +49,11 @@ function getConfig() {
         id_region: process.env.WL_REGION_ID || '1',
         k_location: process.env.WL_LOCATION_ID || '5000000296',
       },
+      // Cloudflare bypass configuration
+      cloudflareBypass: {
+        headerName: process.env.WL_CLOUDFLARE_HEADER_NAME || 'x-firewall-rule',
+        headerValue: process.env.WL_CLOUDFLARE_HEADER_VALUE || 'MorningLightStudio-HJutxWaYn5-flag'
+      },
       // Whether to use the new API Proxy (true) or legacy API (false)
       useProxy: process.env.USE_WL_PROXY === 'true' || true
     },

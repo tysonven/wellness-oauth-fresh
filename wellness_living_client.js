@@ -31,7 +31,20 @@ class WellnessLivingClient {
     }
     this.token = null;
     this.tokenExpiry = null;
-  }  
+    
+    // Initialize custom headers for Cloudflare bypass
+    this.customHeaders = {};
+    
+    // Set the Cloudflare bypass header if available in config
+    const configObj = options.config || options;
+    if (configObj.cloudflareBypass) {
+      const { headerName, headerValue } = configObj.cloudflareBypass;
+      if (headerName && headerValue) {
+        this.customHeaders[headerName] = headerValue;
+        console.log(`Cloudflare bypass header configured: ${headerName}`);
+      }
+    }
+  }
 
   /**
    * Get an access token, refreshing if necessary
@@ -57,7 +70,8 @@ class WellnessLivingClient {
         method: 'POST',
         url: this.envConfig.tokenUrl,
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          ...this.customHeaders // Include Cloudflare bypass header
         },
         data: params
       });
@@ -116,6 +130,7 @@ class WellnessLivingClient {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
+          ...this.customHeaders, // Include Cloudflare bypass header
           ...requestOptions.headers,
         },
         params: requestOptions.params,
