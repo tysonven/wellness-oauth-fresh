@@ -40,9 +40,9 @@ function getConfig() {
       production: {
         tokenUrl: process.env.WL_PROXY_PROD_TOKEN_URL || 'https://access.api.wellnessliving.io/oauth2/token',
         baseUrl: process.env.WL_PROXY_PROD_BASE_URL || 'https://api.wellnessliving.io/v1',
-        clientId: process.env.WL_PROXY_PROD_CLIENT_ID || '', // Replace with production credentials
-        clientSecret: process.env.WL_PROXY_PROD_CLIENT_SECRET || '', // Replace with production credentials
-      },
+        clientId: process.env.WL_PROXY_PROD_CLIENT_ID || 'placeholder_client_id', // Update this line
+        clientSecret: process.env.WL_PROXY_PROD_CLIENT_SECRET || 'placeholder_client_secret', // Update this line
+},
       // Business configuration
       business: {
         k_business: process.env.WL_BUSINESS_ID || '50312',

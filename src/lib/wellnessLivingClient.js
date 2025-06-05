@@ -1,131 +1,258 @@
-// src/lib/wellnessLivingClient.js
-import axios from "axios";
-
-// Staging credentials provided by the user - to be set in .env.local or Vercel env vars
-const WL_USERNAME = process.env.WL_USERNAME;
-const WL_PASSWORD = process.env.WL_PASSWORD;
-const WL_AUTHORIZATION_CODE = process.env.WL_AUTHORIZATION_CODE; // This is the "secret code" for signature
-const WL_AUTHORIZATION_ID = process.env.WL_AUTHORIZATION_ID; // This is the "application ID"
-
-const WL_API_BASE_URL = "https://staging.wellnessliving.com/api/"; // As per user email and SDK examples
-
 /**
- * Initialize a session with WellnessLiving API using Authorization header
- * Based on feedback from WellnessLiving dev team, we should use Authorization header
- * instead of CSRF token for server-side API calls
+ * WellnessLiving API Client
+ * 
+ * This module provides a client for interacting with the WellnessLiving API Proxy.
+ * It handles authentication, token management, and provides methods for making
+ * API requests.
  */
-export async function initializeWellnessLivingSession() {
-  if (!WL_AUTHORIZATION_ID || !WL_AUTHORIZATION_CODE) {
-    console.error("[WL Auth] WellnessLiving authorization credentials are not configured.");
-    return false;
+
+const axios = require('axios');
+const { URLSearchParams } = require('url');
+
+class WellnessLivingClient {
+  /**
+   * Create a new WellnessLiving API client
+   * @param {Object} config - Configuration object
+   * @param {string} environment - 'uat' or 'production'
+   */
+  constructor(options) {
+    if (options.config) {
+      // New structure with config object passed in
+      this.environment = options.environment || 'uat';
+      this.config = options.config;
+      this.envConfig = this.config[this.environment];
+      this.businessConfig = this.config.business;
+    } else {
+      // Original structure for backward compatibility
+      this.environment = options.environment || 'uat';
+      this.config = options;
+      this.envConfig = options[this.environment];
+      this.businessConfig = options.business;
+    }
+    this.token = null;
+    this.tokenExpiry = null;
+    
+    // Initialize custom headers for Cloudflare bypass
+    this.customHeaders = {};
+    
+    // Set the Cloudflare bypass header if available in config
+    // Look directly in the config object for cloudflareBypass
+    if (this.config.cloudflareBypass) {
+      const { headerName, headerValue } = this.config.cloudflareBypass;
+      if (headerName && headerValue) {
+        this.customHeaders[headerName] = headerValue;
+        console.log(`Cloudflare bypass header configured: ${headerName}`);
+      }
+    }
+  }
+
+  /**
+   * Get an access token, refreshing if necessary
+   * @returns {Promise<string>} Access token
+   */
+  async getAccessToken() {
+    // Check if token exists and is not expired
+    const now = Date.now();
+    if (this.token && this.tokenExpiry && now < this.tokenExpiry) {
+      return this.token;
+    }
+    
+    // Request new token
+    try {
+      console.log(`Requesting new access token from ${this.envConfig.tokenUrl}`);
+      
+      const params = new URLSearchParams();
+      params.append('grant_type', 'client_credentials');
+      params.append('client_id', this.envConfig.clientId);
+      params.append('client_secret', this.envConfig.clientSecret);
+
+      // In the getAccessToken method, add this before the axios request:
+console.log('Sending headers:', {
+  'Content-Type': 'application/x-www-form-urlencoded',
+  ...this.customHeaders
+});
+
+      const response = await axios({
+        method: 'POST',
+        url: this.envConfig.tokenUrl,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          ...this.customHeaders // Include Cloudflare bypass header
+        },
+        data: params
+      });
+      
+      // Store token and calculate expiry time (subtract 60 seconds as buffer)
+      this.token = response.data.access_token;
+      this.tokenExpiry = now + ((response.data.expires_in - 60) * 1000);
+      
+      console.log(`Successfully obtained access token, valid until ${new Date(this.tokenExpiry).toISOString()}`);
+      
+      return this.token;
+    } catch (error) {
+      console.error('Error obtaining access token:', error.response ? error.response.data : error.message);
+      throw error;
+    }
   }
   
-  console.log("[WL Auth] Testing WellnessLiving API connection with Authorization header...");
-
-  try {
-    // Create Authorization header
-    // Note: The exact format may need to be updated based on WellnessLiving's guidance
-    // Using a standard format for now
-    const authHeader = `Basic ${Buffer.from(`${WL_AUTHORIZATION_ID}:${WL_AUTHORIZATION_CODE}`).toString('base64')}`;
+  /**
+   * Make an authenticated API request
+   * @param {string} endpoint - API endpoint path
+   * @param {Object} options - Request options
+   * @returns {Promise<Object>} API response
+   */
+  async request(endpoint, options = {}) {
+    // Default options
+    const defaultOptions = {
+      method: 'GET',
+      params: {},
+      data: null,
+    };
     
-    // Make a simple API call to test authentication
-    // Using a simple endpoint that should be accessible with proper authentication
-    const testEndpoint = "Wl/Business/BusinessList.json";
+    // Merge options
+    const requestOptions = { ...defaultOptions, ...options };
     
-    console.log(`[WL Auth] Testing API connection with endpoint: ${WL_API_BASE_URL}${testEndpoint}`);
-    const response = await axios.get(`${WL_API_BASE_URL}${testEndpoint}`, {
-      headers: {
-        "Authorization": authHeader,
-        "User-Agent": `ManusAI-Integration (Node.js)`,
-        "Date": new Date().toUTCString(),
+    try {
+      // Get access token
+      const token = await this.getAccessToken();
+      
+      // Build URL
+      let url = `${this.envConfig.baseUrl}/${endpoint}`;
+      
+      // Add business and region parameters if not already included
+      if (!requestOptions.params.k_business) {
+        requestOptions.params.k_business = this.businessConfig.k_business;
       }
-    });
-
-    if (response.status === 200) {
-      console.log("[WL Auth] API connection test successful");
-      return true;
-    } else {
-      console.error("[WL Auth] API connection test failed with status:", response.status);
-      return false;
-    }
-  } catch (error) {
-    console.error("[WL Auth] Error during API connection test:", 
-      error.response ? 
-        { status: error.response.status, data: error.response.data } : 
-        error.message
-    );
-    return false;
-  }
-}
-
-/**
- * Make a GET request to the WellnessLiving API
- */
-export async function wellnessLivingApiGet(endpoint, params = {}) {
-  if (!WL_AUTHORIZATION_ID || !WL_AUTHORIZATION_CODE) {
-    console.error("[WL API] Authorization credentials are not configured.");
-    return null;
-  }
-
-  try {
-    // Create Authorization header
-    const authHeader = `Basic ${Buffer.from(`${WL_AUTHORIZATION_ID}:${WL_AUTHORIZATION_CODE}`).toString('base64')}`;
-    
-    console.log(`[WL API GET] Calling: ${WL_API_BASE_URL}${endpoint} with params:`, params);
-    const response = await axios.get(`${WL_API_BASE_URL}${endpoint}`, {
-      params: params,
-      headers: {
-        "Authorization": authHeader,
-        "User-Agent": `ManusAI-Integration (Node.js)`,
-        "Date": new Date().toUTCString(),
+      if (!requestOptions.params.id_region) {
+        requestOptions.params.id_region = this.businessConfig.id_region;
       }
-    });
-    
-    return response.data;
-  } catch (error) {
-    console.error(`[WL API GET Error] ${endpoint}:`, 
-      error.response ? 
-        { status: error.response.status, data: error.response.data } : 
-        error.message
-    );
-    return null;
-  }
-}
-
-/**
- * Make a POST request to the WellnessLiving API
- */
-export async function wellnessLivingApiPost(endpoint, data = {}) {
-  if (!WL_AUTHORIZATION_ID || !WL_AUTHORIZATION_CODE) {
-    console.error("[WL API] Authorization credentials are not configured.");
-    return null;
-  }
-
-  try {
-    // Create Authorization header
-    const authHeader = `Basic ${Buffer.from(`${WL_AUTHORIZATION_ID}:${WL_AUTHORIZATION_CODE}`).toString('base64')}`;
-    
-    console.log(`[WL API POST] Calling: ${WL_API_BASE_URL}${endpoint} with data:`, data);
-    const response = await axios.post(
-      `${WL_API_BASE_URL}${endpoint}`, 
-      data,
-      {
+      
+      console.log(`Making ${requestOptions.method} request to ${url}`);
+      
+      // Make request with axios
+      const response = await axios({
+        method: requestOptions.method,
+        url: url,
         headers: {
-          "Authorization": authHeader,
-          "Content-Type": "application/json",
-          "User-Agent": `ManusAI-Integration (Node.js)`,
-          "Date": new Date().toUTCString(),
-        }
-      }
-    );
-    
-    return response.data;
-  } catch (error) {
-    console.error(`[WL API POST Error] ${endpoint}:`, 
-      error.response ? 
-        { status: error.response.status, data: error.response.data } : 
-        error.message
-    );
-    return null;
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          ...this.customHeaders, // Include Cloudflare bypass header
+          ...requestOptions.headers,
+        },
+        params: requestOptions.params,
+        data: requestOptions.data
+      });
+      
+      return response.data;
+    } catch (error) {
+      console.error(`Error making request to ${endpoint}:`, 
+        error.response ? error.response.data : error.message);
+      throw error;
+    }
+  }
+  
+  /**
+   * Helper method for GET requests
+   * @param {string} endpoint - API endpoint path
+   * @param {Object} params - Query parameters
+   * @returns {Promise<Object>} API response
+   */
+  async get(endpoint, params = {}) {
+    return this.request(endpoint, { method: 'GET', params });
+  }
+  
+  /**
+   * Helper method for POST requests
+   * @param {string} endpoint - API endpoint path
+   * @param {Object} data - Request body
+   * @param {Object} params - Query parameters
+   * @returns {Promise<Object>} API response
+   */
+  async post(endpoint, data = {}, params = {}) {
+    return this.request(endpoint, { method: 'POST', data, params });
+  }
+  
+  /**
+   * Helper method for PUT requests
+   * @param {string} endpoint - API endpoint path
+   * @param {Object} data - Request body
+   * @param {Object} params - Query parameters
+   * @returns {Promise<Object>} API response
+   */
+  async put(endpoint, data = {}, params = {}) {
+    return this.request(endpoint, { method: 'PUT', data, params });
+  }
+  
+  /**
+   * Helper method for DELETE requests
+   * @param {string} endpoint - API endpoint path
+   * @param {Object} params - Query parameters
+   * @returns {Promise<Object>} API response
+   */
+  async delete(endpoint, params = {}) {
+    return this.request(endpoint, { method: 'DELETE', params });
+  }
+  
+  /**
+   * Get business information
+   * @returns {Promise<Object>} Business information
+   */
+  async getBusinessInfo() {
+    return this.get('business');
+  }
+  
+  /**
+   * Get location list
+   * @returns {Promise<Object>} Location list
+   */
+  async getLocations() {
+    return this.get('location/list');
+  }
+  
+  /**
+   * Get location details
+   * @param {string} k_location - Location ID
+   * @returns {Promise<Object>} Location details
+   */
+  async getLocationDetails(k_location) {
+    return this.get('location/view', { k_location });
+  }
+  
+  /**
+   * Get class list
+   * @param {string} k_location - Location ID
+   * @returns {Promise<Object>} Class list
+   */
+  async getClasses(k_location) {
+    return this.get('classes/list', { k_location });
+  }
+  
+  /**
+   * Get appointment service list
+   * @param {string} k_location - Location ID
+   * @returns {Promise<Object>} Appointment service list
+   */
+  async getAppointmentServices(k_location) {
+    return this.get('appointment/book/service/list', { k_location });
+  }
+  
+  /**
+   * Get staff list for a service
+   * @param {string} k_location - Location ID
+   * @param {string} k_service - Service ID
+   * @returns {Promise<Object>} Staff list
+   */
+  async getStaffForService(k_location, k_service) {
+    return this.get('appointment/book/staff/list', { k_location, k_service });
+  }
+  
+  /**
+   * Get event list
+   * @returns {Promise<Object>} Event list
+   */
+  async getEvents() {
+    return this.get('event/list');
   }
 }
+// If using CommonJS (Node.js) modules
+module.exports = { WellnessLivingClient };
