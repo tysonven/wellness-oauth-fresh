@@ -36,9 +36,9 @@ class WellnessLivingClient {
     this.customHeaders = {};
     
     // Set the Cloudflare bypass header if available in config
-    const configObj = options.config || options;
-    if (configObj.cloudflareBypass) {
-      const { headerName, headerValue } = configObj.cloudflareBypass;
+    // Look directly in the config object for cloudflareBypass
+    if (this.config.cloudflareBypass) {
+      const { headerName, headerValue } = this.config.cloudflareBypass;
       if (headerName && headerValue) {
         this.customHeaders[headerName] = headerValue;
         console.log(`Cloudflare bypass header configured: ${headerName}`);
@@ -65,7 +65,13 @@ class WellnessLivingClient {
       params.append('grant_type', 'client_credentials');
       params.append('client_id', this.envConfig.clientId);
       params.append('client_secret', this.envConfig.clientSecret);
-      
+
+      // In the getAccessToken method, add this before the axios request:
+console.log('Sending headers:', {
+  'Content-Type': 'application/x-www-form-urlencoded',
+  ...this.customHeaders
+});
+
       const response = await axios({
         method: 'POST',
         url: this.envConfig.tokenUrl,
