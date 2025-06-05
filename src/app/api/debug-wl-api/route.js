@@ -1,10 +1,8 @@
 // src/app/api/debug-wl-api/route.js
-import * as apiDebugLogger from "../../../lib/api_debug_logger";
 
 // This would normally be imported from a local file
-// For the actual implementation, copy the api_debug_logger.js content to src/lib/
-// and update this import path
-import * as apiDebugLogger from "../../../lib/api_debug_logger";
+// Import the debug logger
+import { logApiRequest, logApiResponse } from "../../../lib/api_debug_logger";
 
   const { 
     PaginationHandler, 
