@@ -1,6 +1,13 @@
 // wellness-oauth-fresh/src/app/api/oauth-callback/route.js
 import axios from 'axios';
 
+  const { 
+    PaginationHandler, 
+    RateLimiter, 
+    BatchProcessor, 
+    QueryCache 
+} = require('@/lib/performance_optimization');
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');

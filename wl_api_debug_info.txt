@@ -1,0 +1,495 @@
+Collecting WellnessLiving API debug information...
+Making request to: https://staging.wellnessliving.com/api/Wl/Business/BusinessList.json
+With params: {}
+Making request to: https://staging.wellnessliving.com/api/Wl/Business/Account/BusinessAccountModel.json
+With params: { is_prospects: 'false' }
+Making request to: https://staging.wellnessliving.com/api/Wl/Business/AmazonRegion/AmazonRegionModel.json
+With params: {}
+Making request to: https://staging.wellnessliving.com/api/Wl/Business/Information/BusinessInformationModel.json
+With params: { k_business: '50312' }
+Making request to: https://staging.wellnessliving.com/api/Wl/Staff/StaffList.json
+With params: { k_business: '50312' }
+{
+  "Business List": {
+    "request": {
+      "method": "GET",
+      "url": "https://staging.wellnessliving.com/api/Wl/Business/BusinessList.json",
+      "headers": {
+        "Authorization": "Basic dVI4Wms5MDh6Q3VFc2pKYzp2RW1Pdlp2R3UxWFNxRDRSTXFicTJ0UzFtZEY4RFBDeHZ4bHRNZUViVUs1Vg==",
+        "Content-Type": "application/json"
+      },
+      "params": {}
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "date": "Wed, 21 May 2025 13:37:29 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "server": "Apache/2.4.62 () OpenSSL/1.0.2k-fips",
+        "x-region": "us",
+        "p3p": "CP=\"CAO PSA OUR\"",
+        "x-content-real-length": "326",
+        "set-cookie": "sp=VEp2pqFgxImIX2X0fzkzRGkwswo99rli; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None, st=7C21YZxJP0Nv4Az1QCBH81761G8EpA26; path=/; secure; HttpOnly; SameSite=None",
+        "upgrade": "h2,h2c",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block"
+      },
+      "data": {
+        "a_error": [
+          {
+            "html_message": "An internal server error has occurred [41.g6w6g].",
+            "id": null,
+            "s_field": null,
+            "s_message": "An internal server error has occurred [41.g6w6g].",
+            "sid": null
+          }
+        ],
+        "class": "Exception",
+        "status": "internal",
+        "message": "An internal server error has occurred [41.g6w6g].",
+        "k_log": "[41.g6w6g]",
+        "s_version": "408561"
+      }
+    },
+    "error": null
+  },
+  "Business Account": {
+    "request": {
+      "method": "GET",
+      "url": "https://staging.wellnessliving.com/api/Wl/Business/Account/BusinessAccountModel.json",
+      "headers": {
+        "Authorization": "Basic dVI4Wms5MDh6Q3VFc2pKYzp2RW1Pdlp2R3UxWFNxRDRSTXFicTJ0UzFtZEY4RFBDeHZ4bHRNZUViVUs1Vg==",
+        "Content-Type": "application/json"
+      },
+      "params": {
+        "is_prospects": "false"
+      }
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "date": "Wed, 21 May 2025 13:37:29 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "server": "Apache/2.4.62 () OpenSSL/1.0.2k-fips",
+        "x-region": "us",
+        "p3p": "CP=\"CAO PSA OUR\"",
+        "x-content-real-length": "326",
+        "set-cookie": "sp=NeI7SkOYqm5rS7N2HHMcrKNSiCjb4We0; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None, st=c36FoCwGYQtg5K8wEsiZTZaIQTsFEkoZ; path=/; secure; HttpOnly; SameSite=None",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block"
+      },
+      "data": {
+        "a_error": [
+          {
+            "html_message": "An internal server error has occurred [41.31kbd].",
+            "id": null,
+            "s_field": null,
+            "s_message": "An internal server error has occurred [41.31kbd].",
+            "sid": null
+          }
+        ],
+        "class": "Exception",
+        "status": "internal",
+        "message": "An internal server error has occurred [41.31kbd].",
+        "k_log": "[41.31kbd]",
+        "s_version": "408561"
+      }
+    },
+    "error": null
+  },
+  "Amazon Region": {
+    "request": {
+      "method": "GET",
+      "url": "https://staging.wellnessliving.com/api/Wl/Business/AmazonRegion/AmazonRegionModel.json",
+      "headers": {
+        "Authorization": "Basic dVI4Wms5MDh6Q3VFc2pKYzp2RW1Pdlp2R3UxWFNxRDRSTXFicTJ0UzFtZEY4RFBDeHZ4bHRNZUViVUs1Vg==",
+        "Content-Type": "application/json"
+      },
+      "params": {}
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "date": "Wed, 21 May 2025 13:37:29 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "server": "Apache/2.4.62 () OpenSSL/1.0.2k-fips",
+        "x-region": "us",
+        "p3p": "CP=\"CAO PSA OUR\"",
+        "x-content-real-length": "326",
+        "set-cookie": "sp=ja78gvAfPsXAjKlW1MhvhcF6k72v1e8N; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None, st=f3NLccb6pVQtf07rnv3GRkcEumlxZJjC; path=/; secure; HttpOnly; SameSite=None",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block"
+      },
+      "data": {
+        "a_error": [
+          {
+            "html_message": "An internal server error has occurred [41.xpdeg].",
+            "id": null,
+            "s_field": null,
+            "s_message": "An internal server error has occurred [41.xpdeg].",
+            "sid": null
+          }
+        ],
+        "class": "Exception",
+        "status": "internal",
+        "message": "An internal server error has occurred [41.xpdeg].",
+        "k_log": "[41.xpdeg]",
+        "s_version": "408561"
+      }
+    },
+    "error": null
+  },
+  "Business Information": {
+    "request": {
+      "method": "GET",
+      "url": "https://staging.wellnessliving.com/api/Wl/Business/Information/BusinessInformationModel.json",
+      "headers": {
+        "Authorization": "Basic dVI4Wms5MDh6Q3VFc2pKYzp2RW1Pdlp2R3UxWFNxRDRSTXFicTJ0UzFtZEY4RFBDeHZ4bHRNZUViVUs1Vg==",
+        "Content-Type": "application/json"
+      },
+      "params": {
+        "k_business": "50312"
+      }
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "date": "Wed, 21 May 2025 13:37:29 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "server": "Apache/2.4.62 () OpenSSL/1.0.2k-fips",
+        "x-region": "us",
+        "p3p": "CP=\"CAO PSA OUR\"",
+        "x-content-real-length": "326",
+        "set-cookie": "sp=zfErWZjO0woL4kYnt2xhyNTwxjIuARgA; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None, st=P0EqFHM3nQNk2WeKvEeOc634QFjonyDt; path=/; secure; HttpOnly; SameSite=None",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block"
+      },
+      "data": {
+        "a_error": [
+          {
+            "html_message": "An internal server error has occurred [41.or00q].",
+            "id": null,
+            "s_field": null,
+            "s_message": "An internal server error has occurred [41.or00q].",
+            "sid": null
+          }
+        ],
+        "class": "Exception",
+        "status": "internal",
+        "message": "An internal server error has occurred [41.or00q].",
+        "k_log": "[41.or00q]",
+        "s_version": "408561"
+      }
+    },
+    "error": null
+  },
+  "Staff List": {
+    "request": {
+      "method": "GET",
+      "url": "https://staging.wellnessliving.com/api/Wl/Staff/StaffList.json",
+      "headers": {
+        "Authorization": "Basic dVI4Wms5MDh6Q3VFc2pKYzp2RW1Pdlp2R3UxWFNxRDRSTXFicTJ0UzFtZEY4RFBDeHZ4bHRNZUViVUs1Vg==",
+        "Content-Type": "application/json"
+      },
+      "params": {
+        "k_business": "50312"
+      }
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "date": "Wed, 21 May 2025 13:37:29 GMT",
+        "content-type": "application/json",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "server": "Apache/2.4.62 () OpenSSL/1.0.2k-fips",
+        "x-region": "us",
+        "p3p": "CP=\"CAO PSA OUR\"",
+        "x-content-real-length": "326",
+        "set-cookie": "sp=u0TeKSappJ8fklnFWSUwmhyOF9aAY8IT; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None, st=25DpQjJlUpPxxJn4iwkmQsYyj1CYrDOc; path=/; secure; HttpOnly; SameSite=None",
+        "x-content-type-options": "nosniff",
+        "x-xss-protection": "1; mode=block"
+      },
+      "data": {
+        "a_error": [
+          {
+            "html_message": "An internal server error has occurred [41.a1obi].",
+            "id": null,
+            "s_field": null,
+            "s_message": "An internal server error has occurred [41.a1obi].",
+            "sid": null
+          }
+        ],
+        "class": "Exception",
+        "status": "internal",
+        "message": "An internal server error has occurred [41.a1obi].",
+        "k_log": "[41.a1obi]",
+        "s_version": "408561"
+      }
+    },
+    "error": null
+  }
+}
+
+
+=== FORMATTED DEBUG INFO FOR SUPPORT ===
+
+
+# WellnessLiving API Debug Information
+
+## Business List
+
+### Request
+
+- **Method**: GET
+- **URL**: https://staging.wellnessliving.com/api/Wl/Business/BusinessList.json
+- **Headers**:
+  - Authorization: Basic [CREDENTIALS MASKED]
+  - Content-Type: application/json
+- **Parameters**:
+
+### Response
+
+- **Status**: 200 OK
+- **Headers**:
+  - date: Wed, 21 May 2025 13:37:29 GMT
+  - content-type: application/json
+  - transfer-encoding: chunked
+  - connection: keep-alive
+  - server: Apache/2.4.62 () OpenSSL/1.0.2k-fips
+  - x-region: us
+  - p3p: CP="CAO PSA OUR"
+  - x-content-real-length: 326
+  - set-cookie: sp=VEp2pqFgxImIX2X0fzkzRGkwswo99rli; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None,st=7C21YZxJP0Nv4Az1QCBH81761G8EpA26; path=/; secure; HttpOnly; SameSite=None
+  - upgrade: h2,h2c
+  - x-content-type-options: nosniff
+  - x-xss-protection: 1; mode=block
+- **Data**:
+```json
+{
+  "a_error": [
+    {
+      "html_message": "An internal server error has occurred [41.g6w6g].",
+      "id": null,
+      "s_field": null,
+      "s_message": "An internal server error has occurred [41.g6w6g].",
+      "sid": null
+    }
+  ],
+  "class": "Exception",
+  "status": "internal",
+  "message": "An internal server error has occurred [41.g6w6g].",
+  "k_log": "[41.g6w6g]",
+  "s_version": "408561"
+}
+```
+
+---
+
+## Business Account
+
+### Request
+
+- **Method**: GET
+- **URL**: https://staging.wellnessliving.com/api/Wl/Business/Account/BusinessAccountModel.json
+- **Headers**:
+  - Authorization: Basic [CREDENTIALS MASKED]
+  - Content-Type: application/json
+- **Parameters**:
+  - is_prospects: false
+
+### Response
+
+- **Status**: 200 OK
+- **Headers**:
+  - date: Wed, 21 May 2025 13:37:29 GMT
+  - content-type: application/json
+  - transfer-encoding: chunked
+  - connection: keep-alive
+  - server: Apache/2.4.62 () OpenSSL/1.0.2k-fips
+  - x-region: us
+  - p3p: CP="CAO PSA OUR"
+  - x-content-real-length: 326
+  - set-cookie: sp=NeI7SkOYqm5rS7N2HHMcrKNSiCjb4We0; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None,st=c36FoCwGYQtg5K8wEsiZTZaIQTsFEkoZ; path=/; secure; HttpOnly; SameSite=None
+  - x-content-type-options: nosniff
+  - x-xss-protection: 1; mode=block
+- **Data**:
+```json
+{
+  "a_error": [
+    {
+      "html_message": "An internal server error has occurred [41.31kbd].",
+      "id": null,
+      "s_field": null,
+      "s_message": "An internal server error has occurred [41.31kbd].",
+      "sid": null
+    }
+  ],
+  "class": "Exception",
+  "status": "internal",
+  "message": "An internal server error has occurred [41.31kbd].",
+  "k_log": "[41.31kbd]",
+  "s_version": "408561"
+}
+```
+
+---
+
+## Amazon Region
+
+### Request
+
+- **Method**: GET
+- **URL**: https://staging.wellnessliving.com/api/Wl/Business/AmazonRegion/AmazonRegionModel.json
+- **Headers**:
+  - Authorization: Basic [CREDENTIALS MASKED]
+  - Content-Type: application/json
+- **Parameters**:
+
+### Response
+
+- **Status**: 200 OK
+- **Headers**:
+  - date: Wed, 21 May 2025 13:37:29 GMT
+  - content-type: application/json
+  - transfer-encoding: chunked
+  - connection: keep-alive
+  - server: Apache/2.4.62 () OpenSSL/1.0.2k-fips
+  - x-region: us
+  - p3p: CP="CAO PSA OUR"
+  - x-content-real-length: 326
+  - set-cookie: sp=ja78gvAfPsXAjKlW1MhvhcF6k72v1e8N; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None,st=f3NLccb6pVQtf07rnv3GRkcEumlxZJjC; path=/; secure; HttpOnly; SameSite=None
+  - x-content-type-options: nosniff
+  - x-xss-protection: 1; mode=block
+- **Data**:
+```json
+{
+  "a_error": [
+    {
+      "html_message": "An internal server error has occurred [41.xpdeg].",
+      "id": null,
+      "s_field": null,
+      "s_message": "An internal server error has occurred [41.xpdeg].",
+      "sid": null
+    }
+  ],
+  "class": "Exception",
+  "status": "internal",
+  "message": "An internal server error has occurred [41.xpdeg].",
+  "k_log": "[41.xpdeg]",
+  "s_version": "408561"
+}
+```
+
+---
+
+## Business Information
+
+### Request
+
+- **Method**: GET
+- **URL**: https://staging.wellnessliving.com/api/Wl/Business/Information/BusinessInformationModel.json
+- **Headers**:
+  - Authorization: Basic [CREDENTIALS MASKED]
+  - Content-Type: application/json
+- **Parameters**:
+  - k_business: 50312
+
+### Response
+
+- **Status**: 200 OK
+- **Headers**:
+  - date: Wed, 21 May 2025 13:37:29 GMT
+  - content-type: application/json
+  - transfer-encoding: chunked
+  - connection: keep-alive
+  - server: Apache/2.4.62 () OpenSSL/1.0.2k-fips
+  - x-region: us
+  - p3p: CP="CAO PSA OUR"
+  - x-content-real-length: 326
+  - set-cookie: sp=zfErWZjO0woL4kYnt2xhyNTwxjIuARgA; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None,st=P0EqFHM3nQNk2WeKvEeOc634QFjonyDt; path=/; secure; HttpOnly; SameSite=None
+  - x-content-type-options: nosniff
+  - x-xss-protection: 1; mode=block
+- **Data**:
+```json
+{
+  "a_error": [
+    {
+      "html_message": "An internal server error has occurred [41.or00q].",
+      "id": null,
+      "s_field": null,
+      "s_message": "An internal server error has occurred [41.or00q].",
+      "sid": null
+    }
+  ],
+  "class": "Exception",
+  "status": "internal",
+  "message": "An internal server error has occurred [41.or00q].",
+  "k_log": "[41.or00q]",
+  "s_version": "408561"
+}
+```
+
+---
+
+## Staff List
+
+### Request
+
+- **Method**: GET
+- **URL**: https://staging.wellnessliving.com/api/Wl/Staff/StaffList.json
+- **Headers**:
+  - Authorization: Basic [CREDENTIALS MASKED]
+  - Content-Type: application/json
+- **Parameters**:
+  - k_business: 50312
+
+### Response
+
+- **Status**: 200 OK
+- **Headers**:
+  - date: Wed, 21 May 2025 13:37:29 GMT
+  - content-type: application/json
+  - transfer-encoding: chunked
+  - connection: keep-alive
+  - server: Apache/2.4.62 () OpenSSL/1.0.2k-fips
+  - x-region: us
+  - p3p: CP="CAO PSA OUR"
+  - x-content-real-length: 326
+  - set-cookie: sp=u0TeKSappJ8fklnFWSUwmhyOF9aAY8IT; expires=Sat, 21 Jun 2025 13:37:29 GMT; Max-Age=2678400; path=/; secure; HttpOnly; SameSite=None,st=25DpQjJlUpPxxJn4iwkmQsYyj1CYrDOc; path=/; secure; HttpOnly; SameSite=None
+  - x-content-type-options: nosniff
+  - x-xss-protection: 1; mode=block
+- **Data**:
+```json
+{
+  "a_error": [
+    {
+      "html_message": "An internal server error has occurred [41.a1obi].",
+      "id": null,
+      "s_field": null,
+      "s_message": "An internal server error has occurred [41.a1obi].",
+      "sid": null
+    }
+  ],
+  "class": "Exception",
+  "status": "internal",
+  "message": "An internal server error has occurred [41.a1obi].",
+  "k_log": "[41.a1obi]",
+  "s_version": "408561"
+}
+```
+
+---
