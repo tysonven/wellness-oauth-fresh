@@ -2,10 +2,8 @@ import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { getAccessToken } from './lib/tokenManager.js';
-
 const FLOW_OS_API_URL = 'https://rest.gohighlevel.com/v1/contacts/';
-const LOCATION_ID = 'SoB562riPllSzjerO6XW';
+const FLOW_OS_API_KEY = process.env.FLOW_OS_API_KEY;
 
 const sampleMember = {
   firstName: 'Jane',
@@ -23,21 +21,13 @@ const sampleMember = {
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function syncMemberToFlowOS(member, retries = 3) {
-  await delay(1500); // baseline throttling
-
-  const accessToken = await getAccessToken(LOCATION_ID);
-  if (!accessToken) {
-    console.error(`❌ No token found for user_id ${LOCATION_ID}`);
-    return;
-  }
-
-  console.log(`🔑 Using access token for ${LOCATION_ID}:`, accessToken);
+  await delay(1500); // throttle baseline for rate limit protection
 
   try {
     const response = await fetch(FLOW_OS_API_URL, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${FLOW_OS_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
