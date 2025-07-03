@@ -7,7 +7,12 @@ import * as DataMapper from '@/lib/data_mapper';
 export async function POST(request) {
   try {
     // Get location ID from request body or use default
-    const body = await request.json().catch(() => ({}));
+    let body = {};
+    try {
+      body = await request.json();
+    } catch (jsonError) {
+      console.warn('Invalid JSON in request body, using defaults:', jsonError.message);
+    }
     const locationId = body.locationId;
     
     // Create clients

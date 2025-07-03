@@ -32,6 +32,14 @@ function mapLocation(wlLocation) {
  * @returns {Object} GoHighLevel service data
  */
 function mapService(wlService, config) {
+  if (!wlService || typeof wlService !== 'object') {
+    throw new Error('Invalid service data: expected an object');
+  }
+  
+  if (!config || !config.integration || !config.integration.mapping) {
+    throw new Error('Invalid config: missing integration mapping configuration');
+  }
+
   // Get category mapping or use default
   const categoryId = config.integration.mapping.serviceCategories[wlService.k_service_category] || 
                     config.integration.mapping.serviceCategories.default;
@@ -95,6 +103,10 @@ function mapClass(wlClass) {
  * @returns {Object} GoHighLevel contact data
  */
 function mapClient(wlClient) {
+  if (!wlClient || typeof wlClient !== 'object') {
+    throw new Error('Invalid client data: expected an object');
+  }
+
   return {
     firstName: wlClient.text_first_name || '',
     lastName: wlClient.text_last_name || '',
@@ -120,8 +132,20 @@ function mapClient(wlClient) {
  * @returns {Object} GoHighLevel appointment data
  */
 function mapAppointment(wlAppointment, contactId, serviceId, staffId) {
+  if (!wlAppointment || typeof wlAppointment !== 'object') {
+    throw new Error('Invalid appointment data: expected an object');
+  }
+  
+  if (!contactId || !serviceId || !staffId) {
+    throw new Error('Missing required IDs: contactId, serviceId, and staffId are required');
+  }
+
   // Calculate end time based on start time and duration
   const startTime = new Date(wlAppointment.dt_date_local || wlAppointment.dt_start);
+  if (isNaN(startTime.getTime())) {
+    throw new Error('Invalid appointment date: unable to parse start time');
+  }
+  
   const endTime = new Date(startTime);
   endTime.setMinutes(endTime.getMinutes() + (wlAppointment.i_duration || 60));
   

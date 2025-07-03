@@ -207,6 +207,11 @@ class WellnessLivingAuth {
       // Make the request
       const response = await fetch(url.toString(), requestOptions);
       
+      // Check if response is ok
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
       // Extract cookies from response
       const setCookieHeader = response.headers.get('set-cookie');
       let cookies = {};
@@ -220,8 +225,13 @@ class WellnessLivingAuth {
         });
       }
       
-      // Parse response
-      const data = await response.json();
+      // Parse response with error handling
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        throw new Error(`Invalid JSON response: ${jsonError.message}`);
+      }
       
       // Return response with cookies
       return {

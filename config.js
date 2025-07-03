@@ -55,7 +55,7 @@ function getConfig() {
         headerValue: process.env.WL_CLOUDFLARE_HEADER_VALUE || 'MorningLightStudio-HJutxWaYn5-flag'
       },
       // Whether to use the new API Proxy (true) or legacy API (false)
-      useProxy: process.env.USE_WL_PROXY === 'true' || true
+      useProxy: process.env.USE_WL_PROXY === 'true' || process.env.USE_WL_PROXY === undefined
     },
     
     // GoHighLevel configuration

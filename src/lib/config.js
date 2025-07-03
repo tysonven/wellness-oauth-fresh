@@ -42,7 +42,7 @@ function getConfig() {
         baseUrl: process.env.WL_PROXY_PROD_BASE_URL || 'https://api.wellnessliving.io/v1',
         clientId: process.env.WL_PROXY_PROD_CLIENT_ID || 'temp_production_client_id_for_build',
         clientSecret: process.env.WL_PROXY_PROD_CLIENT_SECRET || 'temp_production_client_secret_for_build',
-},
+      },
 
       // Business configuration
       business: {
@@ -56,7 +56,7 @@ function getConfig() {
         headerValue: process.env.WL_CLOUDFLARE_HEADER_VALUE || 'MorningLightStudio-HJutxWaYn5-flag'
       },
       // Whether to use the new API Proxy (true) or legacy API (false)
-      useProxy: process.env.USE_WL_PROXY === 'true' || true
+      useProxy: process.env.USE_WL_PROXY === 'true' || process.env.USE_WL_PROXY === undefined
     },
     
     // GoHighLevel configuration

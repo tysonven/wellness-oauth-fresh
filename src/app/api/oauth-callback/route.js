@@ -8,13 +8,14 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const APP_DOMAIN = process.env.APP_DOMAIN || 'https://your-app-domain.com';
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const code = searchParams.get('code');
 
   if (!code) {
-    return NextResponse.redirect('https://your-app-domain.com/error');
+    return NextResponse.redirect(`${APP_DOMAIN}/error`);
   }
 
   try {
@@ -55,14 +56,14 @@ export async function GET(req) {
 
     if (error) {
       console.error('🔴 Error storing token to Supabase:', error);
-      return NextResponse.redirect('https://your-app-domain.com/error');
+      return NextResponse.redirect(`${APP_DOMAIN}/error`);
     }
 
     console.log('✅ Token stored successfully for user:', userId);
 
-    return NextResponse.redirect('https://your-app-domain.com/success');
+    return NextResponse.redirect(`${APP_DOMAIN}/success`);
   } catch (err) {
     console.error('🔴 OAuth callback error:', err);
-    return NextResponse.redirect('https://your-app-domain.com/error');
+    return NextResponse.redirect(`${APP_DOMAIN}/error`);
   }
 }

@@ -25,12 +25,21 @@ async function fetchAllMembers() {
       }
     });
 
-    const json = await res.json();
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+
+    let json;
+    try {
+      json = await res.json();
+    } catch (jsonError) {
+      throw new Error(`Invalid JSON response: ${jsonError.message}`);
+    }
 
     console.log('\n🧾 Full API Response:\n', JSON.stringify(json, null, 2));
 
-    if (!Array.isArray(json.a_member) || json.a_member.length === 0) {
-      console.log('❌ No members found.');
+    if (!json || !Array.isArray(json.a_member) || json.a_member.length === 0) {
+      console.log('❌ No members found or invalid response structure.');
       return;
     }
 
