@@ -25,8 +25,8 @@ export async function GET(req) {
       
     const response = await fetch('https://marketplace.gohighlevel.com/oauth/token', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+      headers: { 'Content-Type': 'multipart/form-data' },
+      body: new URLSearchParams({
         grant_type: 'authorization_code',
         code,
         client_id: CLIENT_ID,
