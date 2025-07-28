@@ -18,6 +18,11 @@ export async function GET(req) {
   }
 
   try {
+    console.log('🔍 OAuth callback - received code:', code);
+    console.log('🔍 OAuth callback - using redirect_uri:', REDIRECT_URI);
+    console.log('🔍 OAuth callback - using client_id:', CLIENT_ID ? '***' : 'MISSING');
+    console.log('🔍 OAuth callback - using client_secret:', CLIENT_SECRET ? '***' : 'MISSING');
+      
     const response = await fetch('https://marketplace.gohighlevel.com/oauth/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -29,9 +34,13 @@ export async function GET(req) {
         redirect_uri: REDIRECT_URI,
       }),
     });
-
+    
+        console.log('🔍 OAuth callback - response status:', response.status);
+    
     if (!response.ok) {
-      throw new Error(`Token exchange failed: ${response.status}`);
+      const errorBody = await response.text();
+      console.error('🔴 OAuth callback - error response body:', errorBody);
+      throw new Error(`Token exchange failed: ${response.status} - ${errorBody}`);
     }
 
     const tokenResponse = await response.json();
