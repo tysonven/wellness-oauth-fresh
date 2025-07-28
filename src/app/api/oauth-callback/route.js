@@ -14,7 +14,7 @@ export async function GET(req) {
   const code = searchParams.get('code');
 
   if (!code) {
-    return NextResponse.redirect('https://your-app-domain.com/error');
+    return NextResponse.redirect('https://wellness-oauth-fresh.vercel.app/error.html');
   }
 
   try {
@@ -55,14 +55,14 @@ export async function GET(req) {
 
     if (error) {
       console.error('🔴 Error storing token to Supabase:', error);
-      return NextResponse.redirect('https://your-app-domain.com/error');
+      return NextResponse.redirect('https://wellness-oauth-fresh.vercel.app/error.html');
     }
 
     console.log('✅ Token stored successfully for user:', userId);
 
-    return NextResponse.redirect('https://your-app-domain.com/success');
+    return NextResponse.redirect('https://wellness-oauth-fresh.vercel.app/connected.html');
   } catch (err) {
     console.error('🔴 OAuth callback error:', err);
-    return NextResponse.redirect('https://your-app-domain.com/error');
+    return NextResponse.redirect('https://wellness-oauth-fresh.vercel.app/error.html');
   }
 }

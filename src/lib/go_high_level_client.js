@@ -172,4 +172,4 @@ class GoHighLevelClient {
   }
 }
 
-module.exports = GoHighLevelClient;
+export { GoHighLevelClient };

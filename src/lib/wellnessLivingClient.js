@@ -255,4 +255,4 @@ console.log('Sending headers:', {
   }
 }
 // If using CommonJS (Node.js) modules
-module.exports = { WellnessLivingClient };
+export { WellnessLivingClient };

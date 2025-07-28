@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { WellnessLivingClient } from '@/lib/wellnessLivingClient';
+import { initializeWellnessLivingSession, wellnessLivingApiGet } from '@/lib/wellnessLivingClient';
 
 // GET handler for authentication testing
 export async function GET() {
