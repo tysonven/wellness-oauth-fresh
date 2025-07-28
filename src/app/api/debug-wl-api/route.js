@@ -3,14 +3,12 @@
 // This would normally be imported from a local file
 // Import the debug logger
 import { logApiRequest, logApiResponse } from "../../../lib/api_debug_logger";
-
-  const { 
-    PaginationHandler, 
-    RateLimiter, 
-    BatchProcessor, 
-    QueryCache 
-} = require('@/lib/performance_optimization');
-
+import { 
+  PaginationHandler, 
+  RateLimiter, 
+  BatchProcessor, 
+  QueryCache 
+} from '@/lib/performance_optimization.js';
 
 export async function GET(request) {
   console.log("API Debug route hit - collecting detailed request/response information");
