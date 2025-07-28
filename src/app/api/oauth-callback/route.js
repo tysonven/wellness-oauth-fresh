@@ -23,16 +23,19 @@ export async function GET(req) {
     console.log('🔍 OAuth callback - using client_id:', CLIENT_ID ? '***' : 'MISSING');
     console.log('🔍 OAuth callback - using client_secret:', CLIENT_SECRET ? '***' : 'MISSING');
 
-    const formData = new FormData();
-    formData.append('grant_type', 'authorization_code');
-    formData.append('code', code);
-    formData.append('client_id', CLIENT_ID);
-    formData.append('client_secret', CLIENT_SECRET);
-    formData.append('redirect_uri', REDIRECT_URI);
+    const params = new URLSearchParams();
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
+    params.append('client_id', CLIENT_ID);
+    params.append('client_secret', CLIENT_SECRET);
+    params.append('redirect_uri', REDIRECT_URI);
       
     const response = await fetch('https://marketplace.gohighlevel.com/oauth/token', {
       method: 'POST',
-      body: formData,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params,
     });
 
     console.log('🔍 OAuth callback - response status:', response.status);
@@ -54,13 +57,15 @@ export async function GET(req) {
     // ✅ Store tokens in Supabase
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    const { error } = await supabase.from('tokens').upsert({
-      user_id: userId,
-      location_id: locationId,
-      access_token,
-      refresh_token,
-      expires_at: Math.floor(Date.now() / 1000) + expires_in,
-    });
+    const { error } = await supabase.from('tokens').upsert([
+      {
+        user_id: userId,
+        location_id: locationId,
+        access_token,
+        refresh_token,
+        expires_at: Math.floor(Date.now() / 1000) + expires_in,
+      }
+    ]);
 
     if (error) {
       console.error('🔴 Error storing token to Supabase:', error);
