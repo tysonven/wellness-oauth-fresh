@@ -22,20 +22,20 @@ export async function GET(req) {
     console.log('🔍 OAuth callback - using redirect_uri:', REDIRECT_URI);
     console.log('🔍 OAuth callback - using client_id:', CLIENT_ID ? '***' : 'MISSING');
     console.log('🔍 OAuth callback - using client_secret:', CLIENT_SECRET ? '***' : 'MISSING');
+
+    const formData = new FormData();
+    formData.append('grant_type', 'authorization_code');
+    formData.append('code', code);
+    formData.append('client_id', CLIENT_ID);
+    formData.append('client_secret', CLIENT_SECRET);
+    formData.append('redirect_uri', REDIRECT_URI);
       
     const response = await fetch('https://marketplace.gohighlevel.com/oauth/token', {
       method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        code,
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        redirect_uri: REDIRECT_URI,
-      }),
+      body: formData,
     });
-    
-        console.log('🔍 OAuth callback - response status:', response.status);
+
+    console.log('🔍 OAuth callback - response status:', response.status);
     
     if (!response.ok) {
       const errorBody = await response.text();
