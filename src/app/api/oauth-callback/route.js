@@ -10,6 +10,10 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 export async function GET(req) {
+export async function GET(req) {
+  console.log('🚀 OAuth callback route hit');
+  const { searchParams } = new URL(req.url);
+  // ... rest of the code
   const { searchParams } = new URL(req.url);
   const code = searchParams.get('code');
 
