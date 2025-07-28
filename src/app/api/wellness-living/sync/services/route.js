@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { WellnessLivingClient } from '@/lib/wellnessLivingClient';
 import { GoHighLevelClient } from '@/lib/go_high_level_client';
-import * as DataMapper from '@/lib/data_mapper';
+import * as DataMapper from '@/lib/data_mapper.mjs';
 
 // POST handler for syncing services
 export async function POST(request) {
